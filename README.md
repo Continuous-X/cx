@@ -1,2 +1,2 @@
-# cx-operator
-product operator
+# cx-installwe
+product installer

@@ -17,8 +17,13 @@ package cmd
 
 import (
 	"fmt"
-
 	"github.com/spf13/cobra"
+	"runtime"
+)
+
+var (
+	sha1ver   string // sha1 revision used to build the program
+	buildTime string // when the executable was built
 )
 
 // versionCmd represents the version command
@@ -32,7 +37,7 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("version called")
+		printVersion()
 	},
 }
 
@@ -48,4 +53,10 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// versionCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
+
+func printVersion() {
+	fmt.Printf("Operating System: %s\nArchitecture: %s\n", runtime.GOOS, runtime.GOARCH)
+	fmt.Printf("BuildTime: %s\n", buildTime)
+	fmt.Printf("SHA: %s\n", sha1ver)
 }

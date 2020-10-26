@@ -22,6 +22,7 @@ import (
 )
 
 var (
+	version   string // version used to build the program
 	sha1ver   string // sha1 revision used to build the program
 	buildTime string // when the executable was built
 )
@@ -57,6 +58,7 @@ func init() {
 
 func printVersion() {
 	fmt.Printf("Operating System: %s\nArchitecture: %s\n", runtime.GOOS, runtime.GOARCH)
+	fmt.Printf("Version: %s\n", version)
 	fmt.Printf("BuildTime: %s\n", buildTime)
 	fmt.Printf("SHA: %s\n", sha1ver)
 }

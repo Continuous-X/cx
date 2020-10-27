@@ -20,7 +20,7 @@ import (
 	"github.com/spf13/cobra"
 	"os"
 	"runtime"
-
+	"k8s.io/component-base/logs"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
 )
@@ -64,6 +64,9 @@ func init() {
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
+	logs.InitLogs()
+	defer logs.FlushLogs()
+
 	if cfgFile != "" {
 		// Use config file from the flag.
 		viper.SetConfigFile(cfgFile)

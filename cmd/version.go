@@ -19,14 +19,25 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"runtime"
+	"k8s.io/apimachinery/pkg/version"
 )
 
 var (
-	version   string // version used to build the program
-	sha1ver   string // sha1 revision used to build the program
-	buildTime string // when the executable was built
+	// commitFromGit is a constant representing the source version that
+	// generated this build. It should be set during build via -ldflags.
+	commitFromGit string
+	// versionFromGit is a constant representing the version tag that
+	// generated this build. It should be set during build via -ldflags.
+	versionFromGit = "unknown"
+	// major version
+	majorFromGit string
+	// minor version
+	minorFromGit string
+	// build date in ISO8601 format, output of $(date -u +'%Y-%m-%dT%H:%M:%SZ')
+	buildDate string
+	// state of git tree, either "clean" or "dirty"
+	gitTreeState string
 )
-
 // versionCmd represents the version command
 var versionCmd = &cobra.Command{
 	Use:   "version",
@@ -58,7 +69,21 @@ func init() {
 
 func printVersion() {
 	fmt.Printf("Operating System: %s\nArchitecture: %s\n", runtime.GOOS, runtime.GOARCH)
-	fmt.Printf("Version: %s\n", version)
-	fmt.Printf("BuildTime: %s\n", buildTime)
-	fmt.Printf("SHA: %s\n", sha1ver)
+	//fmt.Printf("Version: %s\n", version)
+	fmt.Printf("BuildDate: %s\n", buildDate)
+	fmt.Printf("SHA: %s\n", commitFromGit)
+}
+
+func Get() version.Info {
+	return version.Info{
+		Major:        majorFromGit,
+		Minor:        minorFromGit,
+		GitCommit:    commitFromGit,
+		GitVersion:   versionFromGit,
+		GitTreeState: gitTreeState,
+		BuildDate:    buildDate,
+		GoVersion:    runtime.Version(),
+		Compiler:     runtime.Compiler,
+		Platform:     fmt.Sprintf("%s/%s", runtime.GOOS, runtime.GOARCH),
+	}
 }

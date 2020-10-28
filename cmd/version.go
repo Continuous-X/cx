@@ -53,19 +53,19 @@ func init() {
 
 func printVersion() {
 	fmt.Printf("Operating System: %s\nArchitecture: %s\n", runtime.GOOS, runtime.GOARCH)
-	//fmt.Printf("Version: %s\n", version)
-	fmt.Printf("BuildDate: %s\n", buildDate)
-	fmt.Printf("SHA: %s\n", commitFromGit)
+	fmt.Printf("Version: %s\n", version.VersionFromGit)
+	fmt.Printf("BuildDate: %s\n", version.BuildDate)
+	fmt.Printf("SHA: %s\n", version.CommitFromGit)
 }
 
 func Get() version.Info {
 	return version.Info{
-		Major:        majorFromGit,
-		Minor:        minorFromGit,
-		GitCommit:    commitFromGit,
-		GitVersion:   versionFromGit,
-		GitTreeState: gitTreeState,
-		BuildDate:    buildDate,
+		Major:        version.majorFromGit,
+		Minor:        version.minorFromGit,
+		GitCommit:    version.CommitFromGit,
+		GitVersion:   version.VersionFromGit,
+		GitTreeState: version.gitTreeState,
+		BuildDate:    version.BuildDate,
 		GoVersion:    runtime.Version(),
 		Compiler:     runtime.Compiler,
 		Platform:     fmt.Sprintf("%s/%s", runtime.GOOS, runtime.GOARCH),

@@ -17,6 +17,15 @@ package main
 
 import "cx-installer/cmd"
 
+var (
+	sha1ver   string
+	buildTime string
+	version string
+)
+
 func main() {
+	version.CommitFromGit = sha1ver
+	version.VersionFromGit = version
+	version.BuildDate = buildTime
 	cmd.Execute()
 }

@@ -88,7 +88,7 @@ for PLATFORM in $PLATFORMS; do
   BIN_FILENAME="${OUTPUT}-${GOOS}-${GOARCH}"
   if [[ "${GOOS}" == "windows" ]]; then BIN_FILENAME="${BIN_FILENAME}.exe"; fi
   #CMD="GOOS=${GOOS} GOARCH=${GOARCH} go build -mod vendor -o bin/${BIN_FILENAME} $@"
-  CMD="GOOS=${GOOS} GOARCH=${GOARCH} go build -mod vendor -ldflags \"-X cmd.sha1ver=`git rev-parse HEAD` -X cmd.buildTime=${now} -X cmd.version=${VERSION}\" -o bin/${BIN_FILENAME} ${MAIN_SRC_FILE}"
+  CMD="GOOS=${GOOS} GOARCH=${GOARCH} go build -mod vendor -ldflags \"-X main.sha1ver=`git rev-parse HEAD` -X main.buildTime=${now} -X main.version=${VERSION}\" -o bin/${BIN_FILENAME} ${MAIN_SRC_FILE}"
   echo "${CMD}"
   eval $CMD || FAILURES="${FAILURES} ${PLATFORM}"
 done
@@ -96,7 +96,7 @@ done
 # ARM builds
 if [[ $PLATFORMS_ARM == *"linux"* ]]; then
   #CMD="GOOS=linux GOARCH=arm64 go build -mod vendor -o bin/${OUTPUT}-linux-arm64 $@"
-  CMD="GOOS=linux GOARCH=arm64 go build -mod vendor -ldflags \"-X cmd.sha1ver=`git rev-parse HEAD` -X cmd.buildTime=${now} -X cmd.version=${VERSION}\" -o bin/${OUTPUT}-linux-arm64 ${MAIN_SRC_FILE}"
+  CMD="GOOS=linux GOARCH=arm64 go build -mod vendor -ldflags \"-X main.sha1ver=`git rev-parse HEAD` -X main.buildTime=${now} -X main.version=${VERSION}\" -o bin/${OUTPUT}-linux-arm64 ${MAIN_SRC_FILE}"
   echo "${CMD}"
   eval $CMD || FAILURES="${FAILURES} ${PLATFORM}"
 fi
@@ -107,7 +107,7 @@ for GOOS in $PLATFORMS_ARM; do
   for GOARM in 7 6 5; do
     BIN_FILENAME="${OUTPUT}-${GOOS}-${GOARCH}${GOARM}"
     #CMD="GOARM=${GOARM} GOOS=${GOOS} GOARCH=${GOARCH} go build -mod vendor -o bin/${BIN_FILENAME} $@"
-    CMD="GOARM=${GOARM} GOOS=${GOOS} GOARCH=${GOARCH} go build -mod vendor -ldflags \"-X cmd.sha1ver=`git rev-parse HEAD` -X cmd.buildTime=${now} -X cmd.version=${VERSION}\" -o bin/${BIN_FILENAME} ${MAIN_SRC_FILE} "
+    CMD="GOARM=${GOARM} GOOS=${GOOS} GOARCH=${GOARCH} go build -mod vendor -ldflags \"-X main.sha1ver=`git rev-parse HEAD` -X main.buildTime=${now} -X main.version=${VERSION}\" -o bin/${BIN_FILENAME} ${MAIN_SRC_FILE} "
     echo "${CMD}"
     eval "${CMD}" || FAILURES="${FAILURES} ${GOOS}/${GOARCH}${GOARM}"
   done

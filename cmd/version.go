@@ -16,13 +16,14 @@ limitations under the License.
 package cmd
 
 import (
+	"cx-installer/pkg/versions"
 	"fmt"
 	"github.com/spf13/cobra"
 	"runtime"
 	"k8s.io/apimachinery/pkg/version"
 )
 
-// versionCmd represents the version command
+// versionCmd represents the versions command
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "A brief description of your command",
@@ -53,19 +54,19 @@ func init() {
 
 func printVersion() {
 	fmt.Printf("Operating System: %s\nArchitecture: %s\n", runtime.GOOS, runtime.GOARCH)
-	fmt.Printf("Version: %s\n", version.VersionFromGit)
-	fmt.Printf("BuildDate: %s\n", version.BuildDate)
-	fmt.Printf("SHA: %s\n", version.CommitFromGit)
+	fmt.Printf("Version: %s\n", versions.VersionFromGit)
+	fmt.Printf("BuildDate: %s\n", versions.BuildDate)
+	fmt.Printf("SHA: %s\n", versions.CommitFromGit)
 }
 
 func Get() version.Info {
 	return version.Info{
-		Major:        version.majorFromGit,
-		Minor:        version.minorFromGit,
-		GitCommit:    version.CommitFromGit,
-		GitVersion:   version.VersionFromGit,
-		GitTreeState: version.gitTreeState,
-		BuildDate:    version.BuildDate,
+		Major:        versions.MajorFromGit,
+		Minor:        versions.MinorFromGit,
+		GitCommit:    versions.CommitFromGit,
+		GitVersion:   versions.VersionFromGit,
+		GitTreeState: versions.GitTreeState,
+		BuildDate:    versions.BuildDate,
 		GoVersion:    runtime.Version(),
 		Compiler:     runtime.Compiler,
 		Platform:     fmt.Sprintf("%s/%s", runtime.GOOS, runtime.GOARCH),

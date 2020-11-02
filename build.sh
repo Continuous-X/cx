@@ -79,7 +79,8 @@ FAILURES=""
 SOURCE_FILE=`echo $@ | sed 's/\.go//'`
 MAIN_SRC_FILE=main.go
 CURRENT_DIRECTORY=${PWD##*/}
-OUTPUT=${SOURCE_FILE:-$CURRENT_DIRECTORY} # if no src file given, use current dir name
+#OUTPUT=${SOURCE_FILE:-$CURRENT_DIRECTORY} # if no src file given, use current dir name
+OUTPUT="cx"
 now=$(date +'%Y-%m-%d_%T')
 
 for PLATFORM in $PLATFORMS; do
@@ -103,7 +104,7 @@ fi
 
 for GOOS in $PLATFORMS_ARM; do
   GOARCH="arm"
-  # build for each ARM version
+  # build for each ARM versions
   for GOARM in 7 6 5; do
     BIN_FILENAME="${OUTPUT}-${GOOS}-${GOARCH}${GOARM}"
     #CMD="GOARM=${GOARM} GOOS=${GOOS} GOARCH=${GOARCH} go build -mod vendor -o bin/${BIN_FILENAME} $@"

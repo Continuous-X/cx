@@ -15,7 +15,10 @@ limitations under the License.
 */
 package main
 
-import "cx-installer/cmd"
+import (
+	"cx-installer/pkg/versions"
+	"cx-installer/cmd"
+)
 
 var (
 	sha1ver   string
@@ -24,8 +27,8 @@ var (
 )
 
 func main() {
-	version.CommitFromGit = sha1ver
-	version.VersionFromGit = version
-	version.BuildDate = buildTime
+	versions.CommitFromGit = sha1ver
+	versions.VersionFromGit = version
+	versions.BuildDate = buildTime
 	cmd.Execute()
 }

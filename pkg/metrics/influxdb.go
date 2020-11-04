@@ -1,19 +1,60 @@
 package metrics
 
 import (
-	"fmt"
-	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
+	"context"
+	"github.com/influxdata/influxdb-client-go/v2/api"
+	"github.com/influxdata/influxdb-client-go/v2/api/write"
+	"log"
+	"runtime"
+	"time"
+
+	influxClient "github.com/influxdata/influxdb-client-go/v2"
 )
 
 type InfluxDB struct {
-	client influxdb2.Client
+	MetricName  string
+	Tags        map[string]string
+	MetricsData map[string]interface{}
 }
 
-var influxDB *InfluxDB
+var (
+	metricPoint *write.Point
+	writeApi    api.WriteAPIBlocking
+	client      influxClient.Client
+)
 
-func (influxDB InfluxDB) Connect() *InfluxDB {
-	if influxDB.client == nil {
-		influxDB.client = influxdb2.NewClientWithOptions(fmt.Sprintf("%s://%s:%s", influxDbProtocol, influxDbHostname, influxDbPort), "", influxdb2.DefaultOptions())
+func (influx InfluxDB) WriteMetric() {
+	influx.setMetricPoint()
+	influx.setWriteApi()
+	influx.writeMetricPoint()
+}
+
+func (influx InfluxDB) connect() {
+	host := ""
+	if runtime.GOOS == "windows" {
+		host = cxStatisticDBUrl
+	} else {
+		host = cxStatisticDBUrlFallback
 	}
-	return &influxDB
+	client = influxClient.NewClientWithOptions(
+		host,
+		"",
+		influxClient.DefaultOptions().SetBatchSize(20))
+	defer client.Close()
+}
+
+func (influx InfluxDB) setWriteApi() {
+	influx.connect()
+	writeApi = client.WriteAPIBlocking("", metricDbName+"/autogen")
+}
+
+func (influx InfluxDB) setMetricPoint() {
+	metricPoint = influxClient.NewPoint(influx.MetricName, influx.Tags, influx.MetricsData, time.Now())
+}
+
+func (influx InfluxDB) writeMetricPoint() {
+	writeError := writeApi.WritePoint(context.Background(), metricPoint)
+	if writeError != nil {
+		log.Printf("Write error: %s\n", writeError.Error())
+	}
 }

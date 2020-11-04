@@ -1,54 +1,55 @@
 package metrics
 
 import (
-	"cx-installer/pkg/constants"
+	"cx-installer/pkg/versions"
+	"strconv"
 )
 
 const (
 	tagKeyPrefix = "tag_"
 	
-	dataKeyInstallationCxVersion          = "cx_version"
-	dataKeyInstallationCxCommand          = "cx_command"
-	dataKeyInstallationCxStatus           = "cx_status"
-	dataKeyInstallationCxConfigRepository = "cx_config_repository"
-	dataKeyInstallationOpenshiftNamespace = "openshift_namespace"
+	dataKeyCliVersion          = "cli_version"
+	dataKeyCliCommand          = "cli_command"
+	dataKeyGHProtectionActive  = "gh_protection_active"
+	dataKeyGHPullRequestActive = "gh_pr_active"
+	dataKeyGHStatusCheckActive = "gh_status_check_active"
 	
-	tagKeyInstallationCxVersion          = tagKeyPrefix + dataKeyInstallationCxVersion
-	tagKeyInstallationCxCommand          = tagKeyPrefix + dataKeyInstallationCxCommand
-	tagKeyInstallationCxStatus           = tagKeyPrefix + dataKeyInstallationCxStatus
-	tagKeyInstallationCxConfigRepository = tagKeyPrefix + dataKeyInstallationCxConfigRepository
-	tagKeyInstallationOpenshiftNamespace = tagKeyPrefix + dataKeyInstallationOpenshiftNamespace
+	tagKeyCliVersion          = tagKeyPrefix + dataKeyCliVersion
+	tagKeyCliCommand          = tagKeyPrefix + dataKeyCliCommand
+	tagKeyGHProtectionActive  = tagKeyPrefix + dataKeyGHProtectionActive
+	tagKeyGHPullRequestActive = tagKeyPrefix + dataKeyGHPullRequestActive
+	tagKeyGHStatusCheckActive = tagKeyPrefix + dataKeyGHStatusCheckActive
 	
-	metricNameCxInstallation = "cx_installer"
+	measurementName = "gh_branch_protection"
 )
 
-type MetricInstallation struct {
-	CxCommand          string
-	InstallStatus      string
-	CxConfigRepository string
-	TargetNameSpace    string
+type MetricGHRepositoryProtection struct {
+	CliCommand          string
+	GhProtectionActive  bool
+	GhPullrequestActive bool
+	GhStatusCheckActive bool
 }
 
-func (metric MetricInstallation) WriteMetric() {
+func (metric MetricGHRepositoryProtection) WriteMetric() {
 	fillMetricInstallComponent(metric).WriteMetric()
 }
 
-func fillMetricInstallComponent(metric MetricInstallation) (metrics InfluxDB) {
+func fillMetricInstallComponent(metric MetricGHRepositoryProtection) (metrics InfluxDB) {
 	metrics = InfluxDB{
-		MetricName: metricNameCxInstallation,
+		MetricName: measurementName,
 		MetricsData: map[string]interface{}{
-			dataKeyInstallationCxVersion:          constants.CxVersion,
-			dataKeyInstallationCxCommand:          metric.CxCommand,
-			dataKeyInstallationCxStatus:           metric.InstallStatus,
-			dataKeyInstallationCxConfigRepository: metric.CxConfigRepository,
-			dataKeyInstallationOpenshiftNamespace: metric.TargetNameSpace,
+			dataKeyCliVersion:          versions.VersionFromGit,
+			dataKeyCliCommand:          metric.CliCommand,
+			dataKeyGHProtectionActive:  metric.GhProtectionActive,
+			dataKeyGHPullRequestActive: metric.GhPullrequestActive,
+			dataKeyGHStatusCheckActive: metric.GhStatusCheckActive,
 		},
 		Tags: map[string]string{
-			tagKeyInstallationCxVersion:          constants.CxVersion,
-			tagKeyInstallationCxCommand:          metric.CxCommand,
-			tagKeyInstallationCxStatus:           metric.InstallStatus,
-			tagKeyInstallationCxConfigRepository: metric.CxConfigRepository,
-			tagKeyInstallationOpenshiftNamespace: metric.TargetNameSpace,
+			tagKeyCliVersion:          versions.VersionFromGit,
+			tagKeyCliCommand:          metric.CliCommand,
+			tagKeyGHProtectionActive:  strconv.FormatBool(metric.GhProtectionActive),
+			tagKeyGHPullRequestActive: strconv.FormatBool(metric.GhPullrequestActive),
+			tagKeyGHStatusCheckActive: strconv.FormatBool(metric.GhStatusCheckActive),
 		},
 	}
 	return metrics

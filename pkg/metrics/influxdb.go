@@ -2,10 +2,10 @@ package metrics
 
 import (
 	"context"
+	"fmt"
 	"github.com/influxdata/influxdb-client-go/v2/api"
 	"github.com/influxdata/influxdb-client-go/v2/api/write"
 	"log"
-	"runtime"
 	"time"
 
 	influxClient "github.com/influxdata/influxdb-client-go/v2"
@@ -30,14 +30,9 @@ func (influx InfluxDB) WriteMetric() {
 }
 
 func (influx InfluxDB) connect() {
-	host := ""
-	if runtime.GOOS == "windows" {
-		host = cxStatisticDBUrl
-	} else {
-		host = cxStatisticDBUrlFallback
-	}
+	influxUrl := fmt.Sprintf("%s://%s:%s", influxDbProtocol, influxDbHostname, influxDbPort)
 	client = influxClient.NewClientWithOptions(
-		host,
+		influxUrl,
 		"",
 		influxClient.DefaultOptions().SetBatchSize(20))
 	defer client.Close()

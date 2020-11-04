@@ -16,6 +16,7 @@ limitations under the License.
 package cmd
 
 import (
+	"cx-installer/cmd/check"
 	"fmt"
 	"github.com/spf13/cobra"
 	"os"
@@ -60,6 +61,8 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+
+	rootCmd.AddCommand(check.NewCmdCheck())
 }
 
 // initConfig reads in config file and ENV variables if set.

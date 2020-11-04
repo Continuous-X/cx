@@ -7,19 +7,19 @@ import (
 
 const (
 	tagKeyPrefix = "tag_"
-	
+
 	dataKeyCliVersion          = "cli_version"
 	dataKeyCliCommand          = "cli_command"
 	dataKeyGHProtectionActive  = "gh_protection_active"
 	dataKeyGHPullRequestActive = "gh_pr_active"
 	dataKeyGHStatusCheckActive = "gh_status_check_active"
-	
+
 	tagKeyCliVersion          = tagKeyPrefix + dataKeyCliVersion
 	tagKeyCliCommand          = tagKeyPrefix + dataKeyCliCommand
 	tagKeyGHProtectionActive  = tagKeyPrefix + dataKeyGHProtectionActive
 	tagKeyGHPullRequestActive = tagKeyPrefix + dataKeyGHPullRequestActive
 	tagKeyGHStatusCheckActive = tagKeyPrefix + dataKeyGHStatusCheckActive
-	
+
 	measurementName = "gh_branch_protection"
 )
 

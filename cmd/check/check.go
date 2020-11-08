@@ -16,6 +16,5 @@ func NewCmdCheck() *cobra.Command {
 	}
 
 	cmd.AddCommand(NewCmdCGhPtotection())
-
 	return cmd
 }

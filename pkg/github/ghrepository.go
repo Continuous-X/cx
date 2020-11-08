@@ -1,30 +1,43 @@
 package github
 
 import (
-	"context"
+	"cx-installer/pkg/messages"
+	"cx-installer/pkg/metrics"
 	"fmt"
-	"golang.org/x/oauth2"
 	"github.com/google/go-github/v32/github"
 )
 
 type GHRepository struct {
 	Organisation string
 	RepositoryName string
-	GHToken string
+	GhToken string
 }
 
-func (ghRepo GHRepository) getLatestRelease() error {
-	ctx := context.Background()
-	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: ghRepo.GHToken},
-	)
-	tc := oauth2.NewClient(ctx, ts)
+func (ghRepo GHRepository) IsCompliant() bool {
+	ghRepo.getRepositoryList()
+	ghRepo.writeMetric()
+	return false
+}
 
-	client := github.NewClient(tc)
+func (ghRepo GHRepository) writeMetric()  {
+	metrics.MetricGHRepositoryProtection{
+		CliCommand:          "irgendwas",
+		GhProtectionActive:  false,
+		GhPullrequestActive: false,
+		GhStatusCheckActive: false,
+	}.WriteMetric()
+
+}
+
+func (ghRepo GHRepository) getRepositoryList() ([]*github.Repository, error) {
+
+	client, ctx := GHBase{ghToken: ghRepo.GhToken}.getCient()
 	repositoryList, _, listError := client.Repositories.List(ctx,"", nil)
 	if listError != nil {
-		return listError
+		return repositoryList, listError
 	}
-	fmt.Printf("%v", repositoryList)
-	return nil
+	for index, repository := range repositoryList {
+		messages.PrintLogfileAndConsole(fmt.Sprintf("%d: %s", index, repository.GetFullName()))
+	}
+	return repositoryList, nil
 }

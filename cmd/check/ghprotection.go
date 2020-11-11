@@ -2,7 +2,7 @@ package check
 
 import (
 	"cx-installer/pkg/github"
-	"cx-installer/pkg/messages"
+	"cx-installer/pkg/output"
 	"fmt"
 	"github.com/spf13/cobra"
 )
@@ -13,7 +13,7 @@ func NewCmdCGhPtotection() *cobra.Command {
 		Short: "check github protection",
 		Long: `compliance check for github repository protection`,
 		Run: func(cmd *cobra.Command, args []string) {
-			messages.PrintLogfileAndConsole(fmt.Sprintf("use %s", cmd.Name()))
+			output.PrintCliInfo(fmt.Sprintf("use %s", cmd.Name()))
 
 			compliantState := github.GHRepository{
 				Organisation:   "",
@@ -21,7 +21,8 @@ func NewCmdCGhPtotection() *cobra.Command {
 				GhToken:        "2e356175866ff607a7b460d0f46859b4272e261f",
 			}.IsCompliant()
 
-			messages.PrintLogfileAndConsole(fmt.Sprintf("compliant state: %t", compliantState))
+			output.PrintCliInfo(fmt.Sprintf("compliant state: %t", compliantState))
+			output.PrintCheckGhProtectionSuccess()
 		},
 	}
 	return cmd

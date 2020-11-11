@@ -86,6 +86,8 @@ func initConfig() {
 		viper.SetConfigName(".cx")
 	}
 
+	viper.Set("Verbose", false)
+	//viper.Set("LogFile", LogFile)
 	viper.AutomaticEnv() // read in environment variables that match
 
 	// If a config file is found, read it in.

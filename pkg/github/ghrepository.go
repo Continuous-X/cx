@@ -1,7 +1,7 @@
 package github
 
 import (
-	"cx-installer/pkg/messages"
+	"cx-installer/pkg/output"
 	"cx-installer/pkg/metrics"
 	"fmt"
 	"github.com/google/go-github/v32/github"
@@ -37,7 +37,7 @@ func (ghRepo GHRepository) getRepositoryList() ([]*github.Repository, error) {
 		return repositoryList, listError
 	}
 	for index, repository := range repositoryList {
-		messages.PrintLogfileAndConsole(fmt.Sprintf("%d: %s", index, repository.GetFullName()))
+		output.PrintLogfile(fmt.Sprintf("%d: %s", index, repository.GetFullName()))
 	}
 	return repositoryList, nil
 }

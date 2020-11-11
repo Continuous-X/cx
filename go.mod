@@ -3,6 +3,7 @@ module cx-installer
 go 1.15
 
 require (
+	github.com/fatih/color v1.10.0
 	github.com/google/go-github/v32 v32.1.0
 	github.com/influxdata/influxdb-client-go/v2 v2.2.0
 	github.com/mitchellh/go-homedir v1.1.0

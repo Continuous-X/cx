@@ -1,8 +1,8 @@
 package github
 
 import (
-	"cx-installer/pkg/output"
-	"cx-installer/pkg/metrics"
+	"cx/pkg/output"
+	"cx/pkg/metrics"
 	"fmt"
 	"github.com/google/go-github/v32/github"
 )

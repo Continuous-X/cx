@@ -16,7 +16,7 @@ limitations under the License.
 package cmd
 
 import (
-	"cx-installer/pkg/versions"
+	"cx/pkg/versions"
 	"fmt"
 	"github.com/spf13/cobra"
 	"runtime"

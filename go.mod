@@ -1,4 +1,4 @@
-module cx-installer
+module cx
 
 go 1.15
 

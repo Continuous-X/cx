@@ -1,7 +1,7 @@
 package metrics
 
 import (
-	"cx-installer/pkg/versions"
+	"cx/pkg/versions"
 	"strconv"
 )
 

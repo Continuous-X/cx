@@ -16,8 +16,8 @@ limitations under the License.
 package main
 
 import (
-	"cx-installer/pkg/versions"
-	"cx-installer/cmd"
+	"cx/pkg/versions"
+	"cx/cmd"
 )
 
 var (

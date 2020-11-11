@@ -16,7 +16,7 @@ limitations under the License.
 package cmd
 
 import (
-	"cx-installer/cmd/check"
+	"cx/cmd/check"
 	"fmt"
 	"github.com/spf13/cobra"
 	"os"
@@ -98,7 +98,7 @@ func initConfig() {
 
 func printInfo() {
 	fmt.Printf("Operating System: %s\nArchitecture: %s\n", runtime.GOOS, runtime.GOARCH)
-	fmt.Println("Check our Sources at https://github.com/Continuous-X/cx-installer")
+	fmt.Println("Check our Sources at https://github.com/Continuous-X/cx")
 	fmt.Println("Get in contact via github issue.....")
 	fmt.Printf("Author: %s", viper.GetString("author"))
 }

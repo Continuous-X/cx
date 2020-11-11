@@ -1,8 +1,8 @@
 package check
 
 import (
-	"cx-installer/pkg/github"
-	"cx-installer/pkg/output"
+	"cx/pkg/github"
+	"cx/pkg/output"
 	"fmt"
 	"github.com/spf13/cobra"
 )

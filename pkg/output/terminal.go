@@ -13,36 +13,34 @@ const (
 	MessageStateError   = "ERROR"
 )
 
-
-
-func PrintCliInfo(msg string)  {
-	PrintYellow(fmt.Sprintf("%s [INFO]: ",MessagePrefixCli))
+func PrintCliInfo(msg string) {
+	PrintYellow(fmt.Sprintf("%s [INFO]: ", MessagePrefixCli))
 	PrintWhite(msg)
 }
 
-func PrintCliWarning(msg string)  {
-	PrintYellow(fmt.Sprintf("%s [WARNING]: ",MessagePrefixCli))
+func PrintCliWarning(msg string) {
+	PrintYellow(fmt.Sprintf("%s [WARNING]: ", MessagePrefixCli))
 	PrintWhite(msg)
 }
 
-func PrintCliError(msg string)  {
-	PrintRed(fmt.Sprintf("%s [ERROR]: ",MessagePrefixCli))
-	PrintWhite(msg)
+func PrintCliError(err error) {
+	PrintRed(fmt.Sprintf("%s [ERROR]: ", MessagePrefixCli))
+	PrintWhite(fmt.Sprintf("%s", err))
 }
 
-func PrintCheckGhProtectionSuccess()  {
+func PrintCheckGhProtectionSuccess() {
 	PrintCommandSuccess(MessagePrefixCommandCheckGhProtection)
 }
 
-func PrintCheckGhProtectionError()  {
+func PrintCheckGhProtectionError() {
 	PrintCommandError(MessagePrefixCommandCheckGhProtection)
 }
 
-func PrintCommandSuccess(command string)  {
+func PrintCommandSuccess(command string) {
 	PrintGreen(fmt.Sprintf("%s: %s", command, MessageStateSuccess))
 }
 
-func PrintCommandError(command string)  {
+func PrintCommandError(command string) {
 	PrintRed(fmt.Sprintf("%s: %s", command, MessageStateError))
 }
 

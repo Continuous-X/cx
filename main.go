@@ -16,19 +16,27 @@ limitations under the License.
 package main
 
 import (
-	"cx/pkg/versions"
 	"cx/cmd"
+	"cx/pkg/versions"
+	"strings"
 )
 
 var (
 	sha1ver   string
 	buildTime string
-	version string
+	version   string
 )
 
 func main() {
 	versions.CommitFromGit = sha1ver
 	versions.VersionFromGit = version
+	versionArray := strings.Split(version, ".")
+	if len(version) > 0 {
+		versions.MajorFromGit = versionArray[0]
+	}
+	if len(version) > 1 {
+		versions.MinorFromGit = versionArray[1]
+	}
 	versions.BuildDate = buildTime
 	cmd.Execute()
 }

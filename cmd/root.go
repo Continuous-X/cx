@@ -17,13 +17,14 @@ package cmd
 
 import (
 	"cx/cmd/check"
+	"cx/pkg/output"
 	"fmt"
+	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
+	"k8s.io/component-base/logs"
 	"os"
 	"runtime"
-	"k8s.io/component-base/logs"
-	homedir "github.com/mitchellh/go-homedir"
-	"github.com/spf13/viper"
 )
 
 var cfgFile string
@@ -32,7 +33,7 @@ var cfgFile string
 var rootCmd = &cobra.Command{
 	Use:   "cx",
 	Short: "cx componenten installer",
-	Long: `....`,
+	Long:  `....`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	Run: func(cmd *cobra.Command, args []string) {
@@ -44,7 +45,7 @@ var rootCmd = &cobra.Command{
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
+		output.PrintCliError(err)
 		os.Exit(1)
 	}
 }
@@ -77,7 +78,7 @@ func initConfig() {
 		// Find home directory.
 		home, err := homedir.Dir()
 		if err != nil {
-			fmt.Println(err)
+			output.PrintCliError(err)
 			os.Exit(1)
 		}
 
@@ -92,13 +93,16 @@ func initConfig() {
 
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
+		output.PrintCliInfo(fmt.Sprintf("Using config file:", viper.ConfigFileUsed()))
 	}
 }
 
 func printInfo() {
-	fmt.Printf("Operating System: %s\nArchitecture: %s\n", runtime.GOOS, runtime.GOARCH)
-	fmt.Println("Check our Sources at https://github.com/Continuous-X/cx")
-	fmt.Println("Get in contact via github issue.....")
-	fmt.Printf("Author: %s", viper.GetString("author"))
+	output.PrintCliInfo(fmt.Sprintf("%s\n%s\n%s\n%s",
+		fmt.Sprintf("Operating System: %s\nArchitecture: %s", runtime.GOOS, runtime.GOARCH),
+		fmt.Sprint("Check our Sources at https://github.com/Continuous-X/cx"),
+		fmt.Sprintf("Get in contact via github issue....."),
+		fmt.Sprintf("Author: %s", viper.GetString("author")),
+	))
+
 }

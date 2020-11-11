@@ -1,6 +1,7 @@
 package check
 
 import (
+	"cx/pkg/output"
 	"fmt"
 	"github.com/spf13/cobra"
 )
@@ -11,7 +12,9 @@ func NewCmdCheck() *cobra.Command {
 		Short: "check with sub commands",
 		Long:  `choose a check`,
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Printf("use %s", cmd.Name())
+			message := fmt.Sprintf("use %s", cmd.Name())
+			output.PrintCliInfo(message)
+
 		},
 	}
 

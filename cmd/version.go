@@ -16,11 +16,13 @@ limitations under the License.
 package cmd
 
 import (
+	error2 "cx/pkg/error"
 	"cx/pkg/versions"
+	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
-	"runtime"
 	"k8s.io/apimachinery/pkg/version"
+	"runtime"
 )
 
 // versionCmd represents the versions command
@@ -34,7 +36,17 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		printVersion()
+/*		message := fmt.Sprintf("use %s", cmd.Name())
+		output.PrintCliInfo(message)
+*/
+		versionInfo := get()
+		marshalled, err := json.MarshalIndent(&versionInfo, "", "  ")
+		if err != nil {
+			error2.FailHandleCommand(err)
+		}
+		fmt.Println(string(marshalled))
+
+		//printVersion()
 	},
 }
 
@@ -59,7 +71,7 @@ func printVersion() {
 	fmt.Printf("SHA: %s\n", versions.CommitFromGit)
 }
 
-func Get() version.Info {
+func get() version.Info {
 	return version.Info{
 		Major:        versions.MajorFromGit,
 		Minor:        versions.MinorFromGit,

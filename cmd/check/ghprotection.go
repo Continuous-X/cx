@@ -13,7 +13,8 @@ func NewCmdCGhPtotection() *cobra.Command {
 		Short: "check github protection",
 		Long: `compliance check for github repository protection`,
 		Run: func(cmd *cobra.Command, args []string) {
-			output.PrintCliInfo(fmt.Sprintf("use %s", cmd.Name()))
+			message := fmt.Sprintf("use %s", cmd.Name())
+			output.PrintCliInfo(message)
 
 			compliantState := github.GHRepository{
 				Organisation:   "",
